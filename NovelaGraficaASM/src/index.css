@@ -1,0 +1,21 @@
+/* Estilos globales mínimos: el resto lo maneja el tema de Material UI (src/theme.js). */
+html,
+body,
+#root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  font-family: 'Roboto', 'Helvetica', 'Arial', sans-serif;
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+}
+
+code {
+  font-family: ui-monospace, 'Roboto Mono', monospace;
+  font-size: 0.9em;
+  background: #f1f1f1;
+  padding: 0 4px;
+  border-radius: 4px;
+}
