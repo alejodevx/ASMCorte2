@@ -1,8 +1,8 @@
 
 import { Link } from 'react-router-dom'
-import { ArrowLeft, MapPin, Play, Book, TriangleAlert } from 'lucide-react'
+import { ArrowLeft, MapPin, Play, Book, TriangleAlert, Navigation } from 'lucide-react'
 import { PHENOMENA } from '../../data/phenomena'
-import { meetingPointById } from '../../data/meetingPoints'
+import { meetingPointById, getDirectionsUrl } from '../../data/meetingPoints'
 import LevelChip from '../LevelChip'
 
 export default function ZoneDetail({ zone, onBack, onSelectPoint }) {
@@ -38,17 +38,49 @@ export default function ZoneDetail({ zone, onBack, onSelectPoint }) {
       
       <div style={{marginBottom:'1.5rem'}}>
         <div style={{fontSize:'0.9rem', fontWeight:500, marginBottom:'0.5rem'}}>Puntos de encuentro cercanos</div>
-        <ul className="zone-list" style={{marginTop:0}}>
-          {points.map(p => (
-            <li key={p.id} className="zone-item" onClick={() => onSelectPoint(p)}>
-              <MapPin size={18} color="#2e7d32" />
-              <div>
-                <div style={{fontSize:'0.9rem'}}>{p.name}</div>
-                <div style={{fontSize:'0.8rem', color:'var(--text-muted)'}}>{p.area}</div>
-              </div>
-            </li>
-          ))}
-        </ul>
+        {points.length === 0 ? (
+          <p style={{fontSize:'0.85rem', color:'var(--text-muted)'}}>No hay puntos asignados específicamente para esta zona.</p>
+        ) : (
+          <ul className="zone-list" style={{marginTop:0, display:'flex', flexDirection:'column', gap:'0.5rem'}}>
+            {points.map(p => (
+              <li
+                key={p.id}
+                className="zone-item meeting-item"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  gap: '0.75rem',
+                  padding: '0.75rem',
+                  borderRadius: '6px',
+                  border: '1px solid var(--border)',
+                  cursor: 'pointer'
+                }}
+                onClick={() => onSelectPoint(p)}
+                title="Centrar en el mapa"
+              >
+                <div style={{display:'flex', alignItems:'center', gap:'0.75rem', flex: 1}}>
+                  <MapPin size={20} color="#2e7d32" style={{flexShrink:0}} />
+                  <div>
+                    <div style={{fontSize:'0.9rem', fontWeight: 500}}>{p.name}</div>
+                    <div style={{fontSize:'0.8rem', color:'var(--text-muted)'}}>{p.area}</div>
+                  </div>
+                </div>
+                <a
+                  href={getDirectionsUrl(p.coords)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-route"
+                  onClick={(e) => e.stopPropagation()}
+                  title="Ver cómo llegar en Google Maps"
+                >
+                  <Navigation size={13} />
+                  <span>Cómo llegar</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        )}
       </div>
       
       <div style={{display:'flex', gap:'0.5rem', flexWrap:'wrap'}}>

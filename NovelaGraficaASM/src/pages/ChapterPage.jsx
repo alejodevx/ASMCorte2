@@ -46,6 +46,11 @@ export default function ChapterPage() {
               <p style={{fontSize:'0.9rem', color:'var(--text-muted)', marginTop:'0.5rem'}}>Inicia la novela gráfica interactiva.</p>
               <Link to={`/novela?capitulo=${chapter.id}`} className="btn btn-primary" style={{marginTop:'1.5rem', width:'100%', justifyContent:'center'}}><Gamepad2 size={20}/> Iniciar</Link>
             </div>
+            <div className="card-footer">
+              <Link to="/mapa" style={{color: 'var(--primary)', fontWeight: 500, display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.9rem'}}>
+                <MapPin size={16} /> Ver mapa y puntos de encuentro
+              </Link>
+            </div>
           </div>
         </div>
       </div>

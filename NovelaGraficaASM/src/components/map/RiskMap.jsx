@@ -4,6 +4,8 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import { PHENOMENA, THREAT_LEVELS } from '../../data/phenomena'
 import { CALI_CENTER, CALI_BOUNDS, SAFE_COLOR } from './mapConstants'
+import { getDirectionsUrl, meetingPointById } from '../../data/meetingPoints'
+import { Navigation } from 'lucide-react'
 
 /** Ícono de punto de encuentro (estilo línea, color sólido, sin imágenes externas). */
 const meetingIcon = L.divIcon({
@@ -119,15 +121,37 @@ export default function RiskMap({
         )
       })}
 
-      {routes.map((r) => (
-        <Polyline
-          key={r.id}
-          positions={r.coords}
-          pathOptions={{ color: SAFE_COLOR, weight: 4, dashArray: '8 6', lineCap: 'round' }}
-        >
-          <Tooltip sticky>Ruta de evacuación: {r.name}</Tooltip>
-        </Polyline>
-      ))}
+      {routes.map((r) => {
+        const destPoint = meetingPointById(r.to)
+        return (
+          <Polyline
+            key={r.id}
+            positions={r.coords}
+            pathOptions={{ color: SAFE_COLOR, weight: 4, dashArray: '8 6', lineCap: 'round' }}
+          >
+            <Tooltip sticky>Ruta de evacuación: {r.name}</Tooltip>
+            <Popup>
+              <div style={{ minWidth: '180px' }}>
+                <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: SAFE_COLOR, fontWeight: 600 }}>
+                  Ruta de evacuación
+                </div>
+                <strong style={{ display: 'block', margin: '4px 0 6px', fontSize: '0.95rem' }}>{r.name}</strong>
+                {destPoint && (
+                  <a
+                    href={getDirectionsUrl(destPoint.coords)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-directions"
+                  >
+                    <Navigation size={14} />
+                    <span>¿Cómo llegar a {destPoint.name}?</span>
+                  </a>
+                )}
+              </div>
+            </Popup>
+          </Polyline>
+        )
+      })}
 
       {meetingPoints.map((p) => (
         <Marker
@@ -137,13 +161,27 @@ export default function RiskMap({
           eventHandlers={{ click: () => onSelectPoint?.(p) }}
         >
           <Popup>
-            <strong>Punto de encuentro</strong>
-            <br />
-            {p.name}
-            <br />
-            <small>{p.area}</small>
-            <br />
-            <small>Apto para: {p.phenomena.map((id) => PHENOMENA[id].name).join(', ')}</small>
+            <div style={{ minWidth: '180px' }}>
+              <div style={{ fontSize: '0.75rem', textTransform: 'uppercase', color: '#2e7d32', fontWeight: 600 }}>
+                Punto de encuentro
+              </div>
+              <strong style={{ fontSize: '1rem', color: '#1b5e20', display: 'block', margin: '4px 0 2px' }}>
+                {p.name}
+              </strong>
+              <div style={{ fontSize: '0.85rem', color: '#555', marginBottom: '4px' }}>{p.area}</div>
+              <div style={{ fontSize: '0.75rem', color: '#777', marginBottom: '8px' }}>
+                Apto para: {p.phenomena.map((id) => PHENOMENA[id]?.name || id).join(', ')}
+              </div>
+              <a
+                href={getDirectionsUrl(p.coords)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-directions"
+              >
+                <Navigation size={14} />
+                <span>¿Cómo llegar? (Google Maps)</span>
+              </a>
+            </div>
           </Popup>
         </Marker>
       ))}

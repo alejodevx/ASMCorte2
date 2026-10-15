@@ -36,3 +36,13 @@ export const EVACUATION_ROUTES = [
 ]
 
 export const meetingPointById = (id) => MEETING_POINTS.find((p) => p.id === id)
+
+/**
+ * Genera la URL universal de Google Maps para obtener la ruta hacia las coordenadas dadas.
+ * Al no especificar origen, Google Maps utiliza automáticamente la ubicación actual del usuario.
+ */
+export const getDirectionsUrl = (coords) => {
+  if (!coords || coords.length < 2) return '#'
+  const [lat, lng] = coords
+  return `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}`
+}
