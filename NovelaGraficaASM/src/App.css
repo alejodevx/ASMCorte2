@@ -34,9 +34,11 @@
 }
 
 /* Íconos personalizados: sin el fondo blanco por defecto de L.divIcon */
-.meeting-point-icon {
-  background: transparent;
-  border: none;
+.meeting-point-icon,
+.critical-point-marker,
+.inspect-point-marker {
+  background: transparent !important;
+  border: none !important;
 }
 
 .user-location-icon span {

@@ -1,10 +1,11 @@
 export const THREAT_LEVELS = {
-  alto: { id: 'alto', label: 'Alto', color: '#B71C1C', fillOpacity: 0.45 },
-  medio: { id: 'medio', label: 'Medio', color: '#EF6C00', fillOpacity: 0.38 },
-  bajo: { id: 'bajo', label: 'Bajo', color: '#F9A825', fillOpacity: 0.3 },
+  muy_alto: { id: 'muy_alto', label: 'Muy Alto', color: '#880e4f', fillOpacity: 0.44 },
+  alto: { id: 'alto', label: 'Alto', color: '#c62828', fillOpacity: 0.38 },
+  medio: { id: 'medio', label: 'Medio', color: '#ef6c00', fillOpacity: 0.32 },
+  bajo: { id: 'bajo', label: 'Bajo', color: '#2e7d32', fillOpacity: 0.25 },
 }
 
-export const LEVEL_ORDER = ['alto', 'medio', 'bajo']
+export const LEVEL_ORDER = ['muy_alto', 'alto', 'medio', 'bajo']
 
 export const PHENOMENA = {
   terremoto: {
